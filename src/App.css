@@ -1,27 +1,70 @@
-.App {
-  text-align: center;
+/* Global Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+}
+
+nav a {
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #007bff;
+}
+
+/* Section Styles */
+.section {
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: calc(10px + 2vmin);
+  text-align: center;
+  padding: 20px;
+}
+
+.home {
+  background: linear-gradient(to bottom, #0b3766, #0056b3);
   color: white;
 }
 
-.App-button {
-  background-color: #5fdcff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
+.about {
+  background: #28a745;
+  color: white;
 }
 
-.App-button:hover {
-  background-color: #21a1f1;
+.services {
+  background: #17a2b8;
+  color: white;
+}
+
+.portfolio {
+  background: #6c757d;
+  color: white;
+}
+
+.contact {
+  background: #ffc107;
+  color: black;
+}
+
+html {
+  scroll-behavior: smooth;
 }
