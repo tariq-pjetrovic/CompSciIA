@@ -7,35 +7,56 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgb(0, 0, 0);
   color: white;
-  padding: 10px;
+  z-index: 999;
+}
+
+.navbar {
+  display: flex;          
+  flex-direction: row;    
+  align-items: center;    
+  justify-content: space-between; 
+  padding: 0px 20px;  
+  background-color: rgb(0, 0, 0);   
+}
+
+.brand {
+  color: white;
+  margin-right: 20px;
+  font-size: 1.4rem; 
+}
+
+.h1{
+  position: flex;
   display: flex;
-  justify-content: center;
-  z-index: 1000;
+  color: white;
+  display: flex;
+  right: 150;
+  bottom: 100%;
 }
 
 .nav-links {
   display: flex;
-  gap: 15px;
+  gap: 25px;
 }
 
 .auth-links {
   display: flex;
-  gap: 10px;
-  margin-left: 90%;
-  align-items: right;
+  gap: 13px;
+  align-items: center;
 }
 
 .nav-link {
   text-decoration: none;
   color: white;
   font-weight: bold;
+  cursor: pointer;
   transition: color 0.2s;
 }
 
 .nav-link:hover {
-  color: #138148;
+  color: #20968254;
 }
 
 .section {

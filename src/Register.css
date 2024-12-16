@@ -3,8 +3,12 @@ form {
     margin: 0 auto;
   }
   
+  h1{
+    top: 1%;
+    color: rgb(34, 14, 14);
+  }
   form div {
-    margin-bottom: 10px;
+    margin-bottom: 17px;
   }
   
   form label {
@@ -23,4 +27,14 @@ form {
     font-size: 16px;
     cursor: pointer;
   }
+
+  .login-page, .signup-page {
+    padding-top: 50px;
+    padding-left: 10px;
+  }
   
+  .loginFunctions{
+    display: flex;
+    flex-direction: column;
+    column-gap: 20px;
+  }

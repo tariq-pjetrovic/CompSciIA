@@ -1,23 +1,40 @@
 import './Register.css';
 import React, { useState } from 'react';
+import ForgotPassword from '../my-backend/routes/ForgotPassword';
+import ResetPassword from '../my-backend/routes/ResetPassword';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Link, Element } from 'react-scroll'; 
+import { Link as RouterLink } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      // Make a POST request to your backend
+      const response = await fetch('http://localhost:5000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
 
-    // Authentication Logic
-    if (email === 'test@example.com' && password === 'password123') {
-      alert('Login Successful!');
-    } else {
-      alert('Invalid credentials.');
+      const data = await response.json();
+      if (response.ok) {
+        alert(data.message); 
+        // Possibly redirect to a dashboard or home
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Server error');
     }
   };
 
   return (
-    <div>
+    <div className='login-page'>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -38,7 +55,11 @@ function Login() {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <div>
+        <button type="submit" className='loginFunctions'>Login</button>
+        <RouterLink to="/forgot-password" className='loginFunctions'>ForgotPassword</RouterLink>
+        <RouterLink to="/reset-password" className='loginFunctions'>ResetPassword</RouterLink>
+        </div>
       </form>
     </div>
   );
