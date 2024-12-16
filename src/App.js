@@ -2,14 +2,13 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link, Element } from 'react-scroll'; 
 import { Link as RouterLink } from 'react-router-dom';
-import { Redirect } from 'react-router';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './App.css';
 import Login from './Login';
 import Signup from './Signup';
-import ForgotPassword from '../my-backend/routes/ForgotPassword';
-import ResetPassword from '../my-backend/routes/ResetPassword';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 
 function App() {
   useEffect(() => {

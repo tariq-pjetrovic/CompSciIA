@@ -8,7 +8,7 @@ const nodemailer = require('nodemailer');
 // Signup
 router.post('/signup', async (req, res) => {
   try {
-    const { userName, email, password } = req.body;
+    const { userName, email, password, role } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -47,8 +47,8 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Optional: generate token with jsonwebtoken
-    // const token = jwt.sign({ userId: user._id }, 'SECRET_KEY', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.json({ message: 'Login Successful!', token });
 
     res.status(200).json({ message: 'Login Successful!' });
   } catch (error) {
@@ -76,8 +76,8 @@ router.post('/forgot-password', async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: 'Gmail', // or your email service
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+        user:'jerrysshopsup@gmail.com',
+        pass:'uhdg jxac twhc dgrg'
       }
     });
 

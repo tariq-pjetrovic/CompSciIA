@@ -1,10 +1,8 @@
 import './Register.css';
 import React, { useState } from 'react';
-import ForgotPassword from '../my-backend/routes/ForgotPassword';
-import ResetPassword from '../my-backend/routes/ResetPassword';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Link, Element } from 'react-scroll'; 
 import { Link as RouterLink } from 'react-router-dom';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 
 function Login() {
   const [email, setEmail] = useState('');
