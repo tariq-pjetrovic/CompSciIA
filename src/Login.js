@@ -4,33 +4,35 @@ import { Link as RouterLink } from 'react-router-dom';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 
-function Login() {
+function Login({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+   
     try {
-      // Make a POST request to your backend
       const response = await fetch('http://localhost:5000/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
       });
-
+  
       const data = await response.json();
+      console.log("Login Response:", data);
+  
       if (response.ok) {
-        alert(data.message); 
-        // Possibly redirect to a dashboard or home
+        alert(data.message);
+        onLogin(data.user, data.token); // Pass user info and token to App.js
       } else {
         alert(data.message);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error during login:", error);
       alert('Server error');
     }
-  };
-
+  };    
+  
   return (
     <div className='login-page'>
       <h1>Login</h1>

@@ -16,6 +16,7 @@ function ResetPassword() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: resetToken, newPassword }),
       });
+      
       const data = await response.json();
       if (response.ok) {
         alert('Password reset successful!');

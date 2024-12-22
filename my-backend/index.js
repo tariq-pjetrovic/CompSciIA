@@ -24,7 +24,16 @@ mongoose
 
   // Routes
   app.use('/auth', authRoutes);   // All auth endpoints at /auth/*
+  console.log(app._router.stack.filter(r => r.route).map(r => r.route.path));
   app.use('/admin', authMiddleware, roleCheck(['admin']), adminRoutes);
+  app.get('/test', (req, res) => {
+    res.send('Root route works!');
+  });
+  console.log(app._router.stack.map(r => r.route && r.route.path));
+  console.log(app._router.stack.filter(r => r.route).map(r => r.route.path));
+  console.log(app._router.stack.filter(r => r.route).map(r => r.route.path));
+
+
 
 const PORT = 5000;
 app.listen(PORT, () => {

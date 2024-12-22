@@ -4,6 +4,7 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
 
 // Signup
 router.post('/signup', async (req, res) => {
@@ -30,32 +31,50 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+router.get('/test-jwt', (req, res) => {
+  const token = jwt.sign({ test: 'data' }, 'testsecret', { expiresIn: '1h' });
+  res.json({ token });
+});
+
 // Login
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if user is in DB
+    // Find user in the database
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Compare password
+    // Compare hashed passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ message: 'Login Successful!', token });
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
 
-    res.status(200).json({ message: 'Login Successful!' });
+    // Send response with user data
+    res.status(200).json({
+      message: 'Login Successful!',
+      user: {
+        userName: user.userName,
+        role: user.role,
+      },
+      token,
+    });
   } catch (error) {
-    console.error(error);
+    console.error('Error during login:', error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
+
 
 router.post('/forgot-password', async (req, res) => {
   try {
@@ -74,12 +93,12 @@ router.post('/forgot-password', async (req, res) => {
 
     // Send an email with the token link
     const transporter = nodemailer.createTransport({
-      service: 'Gmail', // or your email service
+      service: 'Gmail',
       auth: {
-        user:'jerrysshopsup@gmail.com',
-        pass:'uhdg jxac twhc dgrg'
-      }
-    });
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });    
 
     const resetURL = `http://localhost:3000/reset-password?token=${resetToken}`;
     await transporter.sendMail({
