@@ -38,3 +38,16 @@ form {
     flex-direction: column;
     column-gap: 20px;
   }
+  
+  .password-container {
+    position: relative;
+  }
+  
+  .password-container span {
+    position: absolute;
+    right: 10px;
+    top: 55%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
