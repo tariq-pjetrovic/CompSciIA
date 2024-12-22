@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
+const authMiddleware = require('../middleware/authMiddleware');
 
 // Signup
 router.post('/signup', async (req, res) => {
@@ -75,6 +76,14 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.get('/profile', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
+  } catch (err) {
+    res.status(500).send('Server Error');
+  }
+});
 
 router.post('/forgot-password', async (req, res) => {
   try {

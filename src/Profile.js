@@ -1,17 +1,21 @@
 import React from 'react';
 
 function Profile({ user }) {
-    if (!user) {
-      return <p>You need to log in to view your profile.</p>;
-    }
-  
-    return (
-      <div className="profile-page">
-        <h1>Profile</h1>
-        <p>Username: {user.userName}</p>
-        <p>Role: {user.role}</p>
-      </div>
-    );
+  if (!user) {
+    return <p>Loading user data...</p>; // Fallback in case user is null
   }
-  
-  export default Profile;
+
+  return (
+    <div>
+      <h1>Profile Page</h1>
+      <p>
+        <strong>Username:</strong> {user.userName}
+      </p>
+      <p>
+        <strong>Role:</strong> {user.role}
+      </p>
+    </div>
+  );
+}
+
+export default Profile;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, } from 'react-router-dom';
 import { Link as ScrollLink, Element, scroller } from 'react-scroll';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -113,33 +113,23 @@ function NavLinks() {
   const navigate = useNavigate();
 
   const navigateAndScroll = (target) => {
-    navigate('/'); // Navigate to home
+    navigate('/');
     setTimeout(() => {
       scroller.scrollTo(target, {
-        duration: 500,
+        duration: 350,
         delay: 0,
         smooth: 'easeInOutQuart',
       });
-    }, 100); // Delay to ensure navigation completes first
+    }, 100);
   };
 
   return (
     <div className="nav-links">
-      <span className="nav-link" onClick={() => navigateAndScroll('home')}>
-        Home
-      </span>
-      <span className="nav-link" onClick={() => navigateAndScroll('about')}>
-        About
-      </span>
-      <span className="nav-link" onClick={() => navigateAndScroll('services')}>
-        Services
-      </span>
-      <span className="nav-link" onClick={() => navigateAndScroll('portfolio')}>
-        Portfolio
-      </span>
-      <span className="nav-link" onClick={() => navigateAndScroll('contact')}>
-        Contact
-      </span>
+      <span className="nav-link" onClick={() => navigateAndScroll('home')}>Home</span>
+      <span className="nav-link" onClick={() => navigateAndScroll('about')}>About</span>
+      <span className="nav-link" onClick={() => navigateAndScroll('services')}>Services</span>
+      <span className="nav-link" onClick={() => navigateAndScroll('portfolio')}>Portfolio</span>
+      <span className="nav-link" onClick={() => navigateAndScroll('contact')}>Contact</span>
     </div>
   );
 }
