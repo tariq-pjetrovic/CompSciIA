@@ -70,27 +70,22 @@ body {
 }
 
 .home {
-  background: linear-gradient(to bottom, #0b3766, #0056b3);
+  background: linear-gradient(to bottom, #5F1C2E, #AE62CA);
   color: white;
 }
 
 .about {
-  background: #28a745;
+  background: linear-gradient(to bottom, #AE62CA, #5F1C2E);  
   color: white;
 }
 
 .services {
-  background: #17a2b8;
-  color: white;
-}
-
-.portfolio {
-  background: #6c757d;
+  background: linear-gradient(to bottom, #5F1C2E, #AE62CA);  
   color: white;
 }
 
 .contact {
-  background: #ffc107;
+  background: linear-gradient(to bottom, #AE62CA, #5F1C2E);  
   color: black;
 }
 

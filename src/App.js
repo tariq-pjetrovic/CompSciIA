@@ -9,6 +9,7 @@ import Signup from './Signup';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 import Profile from './Profile';
+import Products from './Products';
 import { useNavigate } from 'react-router-dom';
 
 function App() {
@@ -87,10 +88,6 @@ function App() {
                     <li>Demo, for now</li>
                   </ul>
                 </Element>
-                <Element name="portfolio" className="section portfolio" data-aos="fade-down">
-                  <h2>Our Portfolio</h2>
-                  <p>Check out some of our recent work!</p>
-                </Element>
                 <Element name="contact" className="section contact" data-aos="fade-down">
                   <h2>Contact</h2>
                   <p>Maybe remove this later on</p>
@@ -103,6 +100,7 @@ function App() {
           <Route path="/profile" element={user ? <Profile user={user} /> : <p>Please log in to view this page.</p>} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/Products" element={<Products />} />
         </Routes>
       </div>
     </Router>
@@ -128,7 +126,7 @@ function NavLinks() {
       <span className="nav-link" onClick={() => navigateAndScroll('home')}>Home</span>
       <span className="nav-link" onClick={() => navigateAndScroll('about')}>About</span>
       <span className="nav-link" onClick={() => navigateAndScroll('services')}>Services</span>
-      <span className="nav-link" onClick={() => navigateAndScroll('portfolio')}>Portfolio</span>
+      <span className="nav-link" onClick={() => navigate('Products')}>Products</span>
       <span className="nav-link" onClick={() => navigateAndScroll('contact')}>Contact</span>
     </div>
   );
