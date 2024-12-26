@@ -1,29 +1,28 @@
 import React, { useState } from 'react';
 
 const AdminPanel = () => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [image, setImage] = useState('');
+  const [productData, setProductData] = useState({
+    name: '',
+    description: '',
+    price: '',
+    image: '',
+  });
 
-  const handleAddProduct = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
       const response = await fetch('/api/products', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify({ name, description, price, image }),
+        body: JSON.stringify(productData),
       });
+
       if (response.ok) {
         alert('Product added successfully!');
-        setName('');
-        setDescription('');
-        setPrice('');
-        setImage('');
+        setProductData({ name: '', description: '', price: '', image: '' });
       } else {
         alert('Failed to add product');
       }
@@ -36,32 +35,29 @@ const AdminPanel = () => {
   return (
     <div>
       <h1>Admin Panel</h1>
-      <form onSubmit={handleAddProduct}>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Product Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
+          value={productData.name}
+          onChange={(e) => setProductData({ ...productData, name: e.target.value })}
         />
         <textarea
-          placeholder="Product Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
+          placeholder="Description"
+          value={productData.description}
+          onChange={(e) => setProductData({ ...productData, description: e.target.value })}
         />
         <input
           type="number"
           placeholder="Price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          required
+          value={productData.price}
+          onChange={(e) => setProductData({ ...productData, price: e.target.value })}
         />
         <input
           type="text"
           placeholder="Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={productData.image}
+          onChange={(e) => setProductData({ ...productData, image: e.target.value })}
         />
         <button type="submit">Add Product</button>
       </form>

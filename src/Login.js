@@ -17,7 +17,13 @@ function Login({ onLogin }) {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/auth/login', { email, password }); // Adjust URL as needed
+      const response = await axios.post('http://localhost:5000/auth/login', { email, password });
+      const user = response.data.user;
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+      localStorage.setItem('userName', user.userName);
+      localStorage.setItem('role', user.role);
+      
       onLogin(response.data.user, response.data.token);
       setSuccess('Login was Successful!');
       setTimeout(() => {

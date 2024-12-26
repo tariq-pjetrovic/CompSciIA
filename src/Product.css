@@ -1,90 +1,60 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    box-sizing: border-box;
-  }
-  
-  /* Page Wrapper */
-  .products-page {
-    text-align: center;
-    background: linear-gradient(to bottom, #5f1c2e, #ae62ca);
-    color: #ffffff;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* Header Section */
-  .header {
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .header h1 {
-    font-size: 2.5rem;
-    margin: 0;
-  }
-  
-  .header p {
-    font-size: 1.2rem;
-    margin: 10px 0 0;
-  }
-  
-  /* Products Container */
-  .products-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    width: 90%;
-    max-width: 1200px;
-    margin: 20px auto;
-  }
-  
-  /* Product Card */
-  .product-card {
-    background-color: #ffffff;
-    color: #333333;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  
-  .product-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-  
-  .product-image {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-  
-  .product-title {
-    font-size: 1.5rem;
-    margin: 10px 0;
-  }
-  
-  .product-description {
-    font-size: 1rem;
-    padding: 0 10px;
-  }
-  
-  .buy-now {
-    background-color: #ae62ca;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    margin: 15px 0;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .buy-now:hover {
-    background-color: #5f1c2e;
-  }
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.product-card {
+  width: 200px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.add-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.add-product-form input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.add-product-form button {
+  padding: 10px 15px;
+  font-size: 16px;
+  color: white;
+  background-color: #28a745;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-product-form button:hover {
+  background-color: #218838;
+}
+

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, } from 'react-router-dom';
-import { Link as ScrollLink, Element, scroller } from 'react-scroll';
+import {Element, scroller } from 'react-scroll';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './App.css';
@@ -78,17 +78,17 @@ function App() {
                   <h1>Welcome to My Site</h1>
                   <p>Your one-stop solution for web design.</p>
                 </Element>
-                <Element name="about" className="section about" data-aos="fade-down">
+                <Element name="about" className="section about">
                   <h2>About Us</h2>
                   <p>About us (lmao)</p>
                 </Element>
-                <Element name="services" className="section services" data-aos="fade-down">
+                <Element name="services" className="section services">
                   <h2>Our Services</h2>
                   <ul>
                     <li>Demo, for now</li>
                   </ul>
                 </Element>
-                <Element name="contact" className="section contact" data-aos="fade-down">
+                <Element name="contact" className="section contact">
                   <h2>Contact</h2>
                   <p>Maybe remove this later on</p>
                 </Element>
@@ -100,7 +100,7 @@ function App() {
           <Route path="/profile" element={user ? <Profile user={user} /> : <p>Please log in to view this page.</p>} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/Products" element={<Products />} />
+          <Route path="/products" element={<Products />} />
         </Routes>
       </div>
     </Router>
