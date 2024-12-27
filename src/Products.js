@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Link, Link as RouterLink, useNavigate} from 'react-router-dom';
 import './Product.css';
 
 const Products = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [user, setUser] = useState(() => {
@@ -16,6 +18,7 @@ const Products = () => {
     price: '',
     image: '',
   });
+  const [cart, setCart] = useState([]);
 
   // Fetch user data and products on component mount
   useEffect(() => {
@@ -26,7 +29,7 @@ const Products = () => {
     if (storedUserName && storedRole) {
       setUser({ userName: storedUserName, role: storedRole });
     }
-
+      
     // Fetch products from backend
     const fetchProducts = async () => {
       try {
@@ -43,7 +46,11 @@ const Products = () => {
     };
 
     fetchProducts();
-  }, []);
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }, [cart]);
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -69,7 +76,7 @@ const Products = () => {
       console.error(error);
       alert('Error adding product');
     }
-  };
+    };
 
   const handleDeleteProduct = async (id) => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
@@ -96,85 +103,130 @@ const Products = () => {
     }
   };
 
+  const handleAddToCart = (product) => {
+    setCart((prevCart) => {
+      // Check if the product is already in the cart
+      const existingProduct = prevCart.find((item) => item._id === product._id);
+  
+      if (existingProduct) {
+        // Increase the quantity of the product
+        return prevCart.map((item) =>
+          item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      }
+  
+      // Add the product to the cart
+      return [...prevCart, { ...product, quantity: 1 }];
+    });
+  
+    alert(`${product.name} added to cart!`);
+  };
+  
+
   return (
-    <div>
-      <h1>Products</h1>
-      {products.length > 0 ? (
-        <div className="product-list">
-          {products.map((product) => (
-            <div
-              key={product._id}
-              className="product-card"
-              onClick={() => setSelectedProduct(product)}
-            >
-              <img src={product.image} alt={product.name} />
-              <h2>{product.name}</h2>
-              <p>${product.price.toFixed(2)}</p>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p>Sorry, no products available.</p>
-      )}
-
-      {selectedProduct && (
-        <div className="product-modal">
-          <h2>{selectedProduct.name}</h2>
-          <p>{selectedProduct.description}</p>
-          <p>${selectedProduct.price.toFixed(2)}</p>
-          {user?.role === 'admin' && (
-            <button onClick={() => handleDeleteProduct(selectedProduct._id)}>Delete</button>
-          )}
-          <button onClick={() => setSelectedProduct(null)}>Close</button>
-          <button>Add to Cart</button>
-        </div>
-      )}
-
-      {/* Admin-only features */}
-      {user?.role === 'admin' && (
         <div>
-          <h3>Admin Panel</h3>
-          <button onClick={() => setShowAddProduct((prev) => !prev)}>
-            {showAddProduct ? 'Cancel' : 'Add New Product'}
-          </button>
-          {showAddProduct && (
-            <form onSubmit={handleAddProduct}>
-              <input
-                type="text"
-                placeholder="Product Name"
-                value={newProduct.name}
-                onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-                required
-              />
-              <textarea
-                placeholder="Description"
-                value={newProduct.description}
-                onChange={(e) =>
-                  setNewProduct({ ...newProduct, description: e.target.value })
-                }
-                required
-              />
-              <input
-                type="number"
-                placeholder="Price"
-                value={newProduct.price}
-                onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Image URL"
-                value={newProduct.image}
-                onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
-                required
-              />
-              <button type="submit">Add Product</button>
-            </form>
-          )}
+        <h1>Products</h1>
+        <nav>
+            <div>
+                <Link to='cart'>Cart</Link>
+            </div>
+        </nav>
+        {products.length > 0 ? (
+            <div className="product-list">
+            {products.map((product) => (
+                <div
+                key={product._id}
+                className="product-card"
+                onClick={() => setSelectedProduct(product)}
+                >
+                <img src={product.image} alt={product.name} />
+                <h2>{product.name}</h2>
+                <p>${product.price.toFixed(2)}</p>
+                </div>
+            ))}
+            </div>
+        ) : (
+            <p>Sorry, no products available.</p>
+        )}
+
+        {selectedProduct && (
+            <div className="product-modal">
+            <h2>{selectedProduct.name}</h2>
+            <p>{selectedProduct.description}</p>
+            <p>${selectedProduct.price.toFixed(2)}</p>
+            {user?.role === 'admin' && (
+                <button onClick={() => handleDeleteProduct(selectedProduct._id)}>Delete</button>
+            )}
+            <button onClick={() => setSelectedProduct(null)}>Close</button>
+            <button onClick={() => handleAddToCart(selectedProduct)}>Add to Cart</button>
+            </div>
+        )}
+
+        <div className="cart">
+            <h2>Shopping Cart</h2>
+            {cart.length > 0 ? (
+            <ul>
+                {cart.map((item) => (
+                <li key={item._id}>
+                    <p>{item.name}</p>
+                    <p>Price: ${item.price}</p>
+                    <p>Quantity: {item.quantity}</p>
+                </li>
+                ))}
+            </ul>
+            ) : (
+            <p>Your cart is empty.</p>
+            )}
         </div>
-      )}
-    </div>
+
+        {/* Admin-only features */}
+        {user?.role === 'admin' && (
+            <div>
+            <h3>Admin Panel</h3>
+            <button onClick={() => setShowAddProduct((prev) => !prev)}>
+                {showAddProduct ? 'Cancel' : 'Add New Product'}
+            </button>
+            {showAddProduct && (
+                <form onSubmit={handleAddProduct}>
+                <input
+                    type="text"
+                    placeholder="Product Name"
+                    value={newProduct.name}
+                    onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+                    required
+                />
+                <textarea
+                    placeholder="Description"
+                    value={newProduct.description}
+                    onChange={(e) =>
+                    setNewProduct({ ...newProduct, description: e.target.value })
+                    }
+                    required
+                />
+                <input
+                    type="number"
+                    placeholder="Price"
+                    value={newProduct.price}
+                    onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+                    required
+                />
+                <input
+                    type="text"
+                    placeholder="Image URL"
+                    value={newProduct.image}
+                    onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
+                    required
+                />
+                <button type="submit">Add Product</button>
+                </form>
+            )}
+            </div>
+        )}
+        <Routes>
+            <Route path='/cart' element={<Cart/>}/>
+        </Routes>
+        </div>
   );
 };
 
-export default Products;
+    export default Products;

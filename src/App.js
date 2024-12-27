@@ -10,6 +10,7 @@ import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
 import Profile from './Profile';
 import Products from './Products';
+import Cart from './Cart';
 import { useNavigate } from 'react-router-dom';
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
             <h1 className="brand">Jerry's Shop</h1>
             <NavLinks />
             <div className="auth-links">
+              <Link to='/cart' className='nav-link'>Cart</Link>
               {user ? (
                 <>
                   <Link to="/profile" className="nav-link">
@@ -101,6 +103,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/cart" element={<Cart/>}/>
         </Routes>
       </div>
     </Router>
@@ -126,7 +129,7 @@ function NavLinks() {
       <span className="nav-link" onClick={() => navigateAndScroll('home')}>Home</span>
       <span className="nav-link" onClick={() => navigateAndScroll('about')}>About</span>
       <span className="nav-link" onClick={() => navigateAndScroll('services')}>Services</span>
-      <span className="nav-link" onClick={() => navigate('Products')}>Products</span>
+      <span className="nav-link" onClick={() => navigate('/Products')}>Products</span>
       <span className="nav-link" onClick={() => navigateAndScroll('contact')}>Contact</span>
     </div>
   );
