@@ -3,7 +3,6 @@ import { Link, Link as RouterLink, useNavigate} from 'react-router-dom';
 import './Product.css';
 
 const Products = () => {
-  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [user, setUser] = useState(() => {
@@ -126,11 +125,6 @@ const Products = () => {
   return (
         <div>
         <h1>Products</h1>
-        <nav>
-            <div>
-                <Link to='cart'>Cart</Link>
-            </div>
-        </nav>
         {products.length > 0 ? (
             <div className="product-list">
             {products.map((product) => (
@@ -222,9 +216,6 @@ const Products = () => {
             )}
             </div>
         )}
-        <Routes>
-            <Route path='/cart' element={<Cart/>}/>
-        </Routes>
         </div>
   );
 };
