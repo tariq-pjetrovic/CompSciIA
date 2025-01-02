@@ -4,6 +4,8 @@ const Product = require('../models/ProductInfo');
 const authMiddleware = require('../middleware/authMiddleware');
 const roleCheck = require('../middleware/roleCheck');
 
+console.log('Products router initialized');
+
 // Get all products
 router.get('/', async (req, res) => {
   try {
@@ -24,6 +26,24 @@ router.get('/:id', async (req, res) => {
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+router.post('/details', async (req, res) => {
+  const { productIds } = req.body;
+  console.log('Received Product IDs:', productIds); // Log received IDs
+
+  if (!productIds || !Array.isArray(productIds)) {
+    return res.status(400).json({ message: 'Invalid productIds format' });
+  }
+
+  try {
+    const products = await Product.find({ _id: { $in: productIds } });
+    console.log('Found Products:', products); // Log found products
+    res.status(200).json(products);
+  } catch (error) {
+    console.error('Error fetching product details:', error.message);
+    res.status(500).json({ message: 'Error fetching product details' });
   }
 });
 

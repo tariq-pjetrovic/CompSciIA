@@ -17,39 +17,80 @@ const Products = () => {
     price: '',
     image: '',
   });
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const storedCart = localStorage.getItem('cart');
+    return storedCart ? JSON.parse(storedCart) : [];
+  });
+  
+  const [wishlist, setWishlist] = useState(() => {
+    const storedWishlist = localStorage.getItem('wishlist');
+    return storedWishlist ? JSON.parse(storedWishlist) : [];
+  });
 
-  // Fetch user data and products on component mount
   useEffect(() => {
     // Retrieve user data from localStorage
     const storedUserName = localStorage.getItem('userName');
     const storedRole = localStorage.getItem('role');
-
+        
     if (storedUserName && storedRole) {
       setUser({ userName: storedUserName, role: storedRole });
     }
-      
+  }, []);
+
+  useEffect(() => {
+
     // Fetch products from backend
     const fetchProducts = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/products');
         if (response.ok) {
           const data = await response.json();
-          setProducts(data);
+          setProducts(data); // Update state with valid JSON data
         } else {
-          console.error('Failed to fetch products');
+          console.error('Failed to fetch products:', response.statusText);
         }
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
-
+  
     fetchProducts();
-    }, []);
+  }, []);
 
-    useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(cart));
-    }, [cart]);
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/wishlist', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setWishlist(data);
+        } else {
+          console.error('Failed to fetch wishlist');
+        }
+      } catch (error) {
+        console.error('Error fetching wishlist:', error);
+      }
+    };
+  
+    fetchWishlist();
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+  useEffect(() => {
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  }, [wishlist]);
+
+  useEffect(() => {
+    console.log('Cart:', cart);
+    console.log('Wishlist:', wishlist);
+  }, [cart, wishlist]);  
 
   const handleAddProduct = async (e) => {
     e.preventDefault();
@@ -102,47 +143,100 @@ const Products = () => {
     }
   };
 
-  const handleAddToCart = (product) => {
-    setCart((prevCart) => {
-      // Check if the product is already in the cart
-      const existingProduct = prevCart.find((item) => item._id === product._id);
+  const handleAddToCart = async (product, quantity = 1) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch('http://localhost:5000/api/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ 
+          product: {
+            productId: product._id, 
+            name: product.name, 
+            price: product.price, 
+            image: product.image 
+          }, 
+          quantity 
+        }),
+      });
   
-      if (existingProduct) {
-        // Increase the quantity of the product
-        return prevCart.map((item) =>
-          item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
-        );
+      if (response.ok) {
+        const updatedCart = await response.json();
+        setCart(updatedCart); // Assuming `setCart` is a state updater function
+        alert(`${product.name} has been added to your cart!`);
+      } else {
+        console.error('Failed to update cart');
       }
+    } catch (error) {
+      console.error('Error updating cart:', error);
+    }
+  };  
   
-      // Add the product to the cart
-      return [...prevCart, { ...product, quantity: 1 }];
-    });
+  const handleToggleWishlist = async (product) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch('http://localhost:5000/api/wishlist', {
+        method: wishlist.some((item) => item._id === product._id) ? 'DELETE' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ productId: product._id }),
+      });
   
-    alert(`${product.name} added to cart!`);
+      if (response.ok) {
+        const updatedWishlist = await response.json();
+        setWishlist(updatedWishlist);
+      } else {
+        console.error('Failed to update wishlist');
+      }
+    } catch (error) {
+      console.error('Error updating wishlist:', error);
+    }
   };
-  
 
   return (
         <div>
         <h1>Products</h1>
-        {products.length > 0 ? (
-            <div className="product-list">
+        {Array.isArray(products) && products.length > 0 ? (
+          <div className="product-list">
             {products.map((product) => (
-                <div
+              <div
                 key={product._id}
                 className="product-card"
                 onClick={() => setSelectedProduct(product)}
-                >
+              >
                 <img src={product.image} alt={product.name} />
                 <h2>{product.name}</h2>
                 <p>${product.price.toFixed(2)}</p>
-                </div>
-            ))}
-            </div>
-        ) : (
-            <p>Sorry, no products available.</p>
-        )}
 
+                <button
+                  className={`wishlist-heart ${
+                    Array.isArray(wishlist) &&
+                    wishlist.some((item) => item._id === product._id)
+                      ? 'filled'
+                      : 'outlined'
+                  }`}
+                  onClick={(e) => {
+                    e.stopPropagation(); // Prevent parent click handler
+                    handleToggleWishlist(product);
+                  }}
+                >
+                  {Array.isArray(wishlist) &&
+                  wishlist.some((item) => item._id === product._id)
+                    ? '❤️'
+                    : '🤍'}
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No products available.</p>
+        )}
+        
         {selectedProduct && (
             <div className="product-modal">
             <h2>{selectedProduct.name}</h2>
@@ -158,7 +252,7 @@ const Products = () => {
 
         <div className="cart">
             <h2>Shopping Cart</h2>
-            {cart.length > 0 ? (
+            {Array.isArray(products) && cart.length > 0 ? (
             <ul>
                 {cart.map((item) => (
                 <li key={item._id}>
@@ -220,4 +314,4 @@ const Products = () => {
   );
 };
 
-    export default Products;
+export default Products;

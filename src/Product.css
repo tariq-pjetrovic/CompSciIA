@@ -58,3 +58,26 @@
   background-color: #218838;
 }
 
+.wishlist-heart {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: red;
+  transition: transform 0.2s ease;
+}
+
+.wishlist-heart:hover {
+  transform: scale(1.1);
+}
+
+.wishlist-heart.filled {
+  color: red;
+}
+
+.wishlist-heart.outlined {
+  color: transparent;
+  -webkit-text-stroke: 1px red;
+}
+
+

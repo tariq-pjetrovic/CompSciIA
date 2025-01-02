@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, } from 'react-router-dom';
 import {Element, scroller } from 'react-scroll';
+import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './App.css';
@@ -11,16 +12,117 @@ import ResetPassword from './ResetPassword';
 import Profile from './Profile';
 import Products from './Products';
 import Cart from './Cart';
-import { useNavigate } from 'react-router-dom';
+import Wishlist from './Wishlist';
+import Payment from './Payment';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [cart, setCart] = useState(() => {
+    try {
+      const storedCart = localStorage.getItem('cart');
+      return storedCart ? JSON.parse(storedCart) : [];
+    } catch (error) {
+      console.error('Error parsing cart data from localStorage:', error);
+      return [];
+    }
+  }); 
+  const [wishlist, setWishlist] = useState(() => {
+    try {
+      const storedWishlist = localStorage.getItem('wishlist');
+      return storedWishlist ? JSON.parse(storedWishlist) : [];
+    } catch (error) {
+      console.error('Error parsing wishlist data from localStorage:', error);
+      return [];
+    }
+  });
 
+  useEffect(() => {
+    const loadUserData = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+  
+      try {
+        const [cartResponse, wishlistResponse] = await Promise.all([
+          fetch('http://localhost:5000/api/cart', { headers: { Authorization: `Bearer ${token}` } }),
+          fetch('http://localhost:5000/api/wishlist', { headers: { Authorization: `Bearer ${token}` } }),
+        ]);
+  
+        if (cartResponse.ok) {
+          const cartData = await cartResponse.json();
+          setCart(cartData);
+        } else {
+          console.error('Error fetching cart data:', await cartResponse.text());
+        }
+  
+        if (wishlistResponse.ok) {
+          const wishlistData = await wishlistResponse.json();
+          setWishlist(wishlistData);
+        } else {
+          console.error('Error fetching wishlist data:', await wishlistResponse.text());
+        }
+      } catch (error) {
+        console.error('Error fetching user data from backend:', error);
+      }
+    };
+  
+    loadUserData();
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
+  useEffect(() => {
+    // Prevent infinite loops by ensuring wishlist doesn't trigger itself
+    const fetchProductDetails = async () => {
+      // Only fetch if wishlist has valid product IDs
+      if (!wishlist || wishlist.length === 0) {
+        console.log('Wishlist is empty or undefined.');
+        return; // Exit early if empty
+      }
+  
+      // Extract product IDs
+      const productIds = wishlist.map((item) => item.productId || item._id || item);
+  
+      try {
+        const response = await fetch('http://localhost:5000/api/products/details', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productIds }),
+        });
+  
+        if (response.ok) {
+          const productDetails = await response.json();
+          console.log('Fetched product details:', productDetails);
+  
+          // Avoid setting state if data is unchanged to prevent re-runs
+          if (JSON.stringify(wishlist) !== JSON.stringify(productDetails)) {
+            setWishlist(productDetails);
+          }
+        } else {
+          console.error('Failed to fetch product details. Status:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching product details:', error);
+      }
+    };
+  
+    fetchProductDetails(); // Fetch details
+  }, [JSON.stringify(wishlist)]); // Add stringified wishlist to dependency array  
+
+  useEffect(() => {
+    console.log('Stored cart:', localStorage.getItem('cart'));
+    console.log('Stored wishlist:', localStorage.getItem('wishlist'));
+  }, []);  
+  
   const handleLogin = (userData, token) => {
     setUser(userData);
     localStorage.setItem('token', token);
     localStorage.setItem('userName', userData.userName);
     localStorage.setItem('role', userData.role);
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   const handleLogout = () => {
@@ -28,6 +130,10 @@ function App() {
     localStorage.removeItem('token');
     localStorage.removeItem('userName');
     localStorage.removeItem('role');
+    localStorage.setItem('cart', JSON.stringify([]));
+    localStorage.setItem('wishlist', JSON.stringify([]));
+    alert('Logged out successfully!');
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -48,6 +154,7 @@ function App() {
             <h1 className="brand">Jerry's Shop</h1>
             <NavLinks />
             <div className="auth-links">
+              <Link to='/wishlist' className='nav-link'>Wishlist</Link>
               <Link to='/cart' className='nav-link'>Cart</Link>
               {user ? (
                 <>
@@ -103,7 +210,10 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/cart" element={<Cart/>}/>
+          <Route
+            path="/wishlist" element={<Wishlist wishlist={wishlist} setWishlist={setWishlist} />} />
+          <Route path="/cart" element={<Cart cart={cart} setCart={setCart}/>} />
+          <Route path="/payment" element={<Payment />}/>
         </Routes>
       </div>
     </Router>
@@ -136,7 +246,3 @@ function NavLinks() {
 }
 
 export default App;
-
-
-
-

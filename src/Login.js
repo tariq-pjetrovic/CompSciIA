@@ -23,6 +23,24 @@ function Login({ onLogin }) {
       localStorage.setItem('token', token);
       localStorage.setItem('userName', user.userName);
       localStorage.setItem('role', user.role);
+
+      // Fetch user's cart and wishlist after login
+      const cartResponse = await fetch('http://localhost:5000/api/cart', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const wishlistResponse = await fetch('http://localhost:5000/api/wishlist', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (cartResponse.ok) {
+        const cart = await cartResponse.json();
+        localStorage.setItem('cart', JSON.stringify(cart));
+      }
+
+      if (wishlistResponse.ok) {
+        const wishlist = await wishlistResponse.json();
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      }
       
       onLogin(response.data.user, response.data.token);
       setSuccess('Login was Successful!');
