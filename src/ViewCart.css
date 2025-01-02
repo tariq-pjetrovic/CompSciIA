@@ -5,61 +5,61 @@ h1{
 }
 
 .cart-page {
-    padding: 20px;
-    margin-top: 2%;
-    font-family: Arial, sans-serif;
-  }
+  padding: 20px;
+  margin-top: 2%;
+  font-family: Arial, sans-serif;
+}
   
-  .cart-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    padding: 10px;
-  }
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
   
-  .cart-item img {
-    max-width: 100px;
-    margin-right: 20px;
-  }
+.cart-item img {
+  max-width: 100px;
+  margin-right: 20px;
+}
   
-  .quantity-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
   
-  .quantity-controls button {
-    padding: 5px 10px;
-    font-size: 16px;
-    cursor: pointer;
-  }
+.quantity-controls button {
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
   
-  .cart-item button {
-    margin-left: 20px;
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
-  }
+.cart-item button {
+  margin-left: 20px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
 
-  .pay-now-container {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-  }
+.pay-now-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
   
-  .pay-now-btn {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+.pay-now-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
   
-  .pay-now-btn:hover {
-    background-color: #45a049;
-  }  
+.pay-now-btn:hover {
+  background-color: #45a049;
+}  
   
