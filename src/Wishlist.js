@@ -3,19 +3,18 @@ import './Wishlist.css';
 
 const Wishlist = ({ wishlist, setWishlist }) => {
   const handleRemoveFromWishlist = async (productId) => {
+    const token = localStorage.getItem('token');
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/wishlist', {
+      const response = await fetch(`http://localhost:5000/api/wishlist/${productId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ productId }),
       });
-
       if (response.ok) {
-        setWishlist((prev) => prev.filter((item) => item._id !== productId));
+        const updatedWishlist = await response.json();
+        setWishlist(updatedWishlist);
       } else {
         console.error('Failed to remove item from wishlist');
       }
@@ -34,12 +33,7 @@ const Wishlist = ({ wishlist, setWishlist }) => {
               <h2>{item.name}</h2>
               <p>{item.description}</p>
               <p>${item.price ? item.price.toFixed(2) : 'N/A'}</p>
-              <button
-                className="remove-btn"
-                onClick={() => handleRemoveFromWishlist(item._id)}
-              >
-                Remove
-              </button>
+              <button onClick={() => handleRemoveFromWishlist(item._id)}>Remove</button>
             </div>
           </div>
         ))

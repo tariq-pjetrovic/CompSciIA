@@ -37,13 +37,27 @@ const Cart = () => {
     }
   };   
 
-  const handleUpdateQuantity = (id, quantity) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item._id === id ? { ...item, quantity: Math.max(1, quantity) } : item
-      )
-    );
-  };
+  const handleUpdateQuantity = async (productId, newQuantity) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch(`http://localhost:5000/api/cart/${productId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ quantity: newQuantity }),
+      });
+      if (response.ok) {
+        const updatedCart = await response.json();
+        setCart(updatedCart);
+      } else {
+        console.error('Failed to update quantity');
+      }
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+    }
+  };   
 
   const handlePayNow = () => {
     window.location.href = '/payment';
@@ -62,13 +76,9 @@ const Cart = () => {
                 <h2>{item.product.name}</h2>
                 <p>Price: ${item.product.price ? item.product.price.toFixed(2) : 'N/A'}</p>
                 <div className="quantity-controls">
-                  <button onClick={() => handleUpdateQuantity(item.product.productId, item.quantity - 1)}>
-                    -
-                  </button>
-                  <span>{item.quantity}</span>
-                  <button onClick={() => handleUpdateQuantity(item.product.productId, item.quantity + 1)}>
-                    +
-                  </button>
+                <button onClick={() => handleUpdateQuantity(item.product.productId, item.quantity - 1)}>-</button>
+                <span>{item.quantity}</span>
+                <button onClick={() => handleUpdateQuantity(item.product.productId, item.quantity + 1)}>+</button>
                 </div>
                 <button onClick={() => handleRemoveFromCart(item.product.productId)}>Remove</button>
               </div>

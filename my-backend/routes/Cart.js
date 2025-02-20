@@ -48,15 +48,38 @@ router.delete('/:productId', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
-    console.log('prodid: ', req.params.productId)
-    const productId = req.params.productId; // Get productId from URL
-    user.cart = user.cart.filter((item) => item.product.toString() !== productId); // Match by `product` field
+    
+    const productId = req.params.productId;
+    user.cart = user.cart.filter(
+      (item) => item.product.productId.toString() !== productId
+    );
     await user.save();
 
-    res.json(user.cart); // Respond with updated cart
+    res.json(user.cart);
   } catch (error) {
     console.error('Error in DELETE /api/cart/:productId:', error);
     res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Add this in your Cart.js (backend)
+router.patch('/:productId', authMiddleware, async (req, res) => {
+  const { quantity } = req.body;
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    
+    const cartItem = user.cart.find(
+      (item) => item.product.productId.toString() === req.params.productId
+    );
+    if (!cartItem) return res.status(404).json({ message: 'Cart item not found' });
+    
+    cartItem.quantity = Math.max(1, quantity);
+    await user.save();
+    res.json(user.cart);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
 

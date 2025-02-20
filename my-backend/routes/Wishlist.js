@@ -7,7 +7,8 @@ const ProductInfo = require('../models/ProductInfo');
 // Get wishlist for logged-in user
 router.get('/', authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id);
+    // Populate wishlist with product details
+    const user = await User.findById(req.user.id).populate('wishlist');
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.json(user.wishlist);
   } catch (error) {
@@ -23,7 +24,7 @@ router.post('/', authMiddleware, async (req, res) => {
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     const { productId } = req.body;
-    const product = await ProductInfo.findById(productId); // Validate product ID
+    const product = await ProductInfo.findById(productId);
     if (!product) return res.status(404).json({ message: 'Product not found' });
 
     if (!user.wishlist.includes(productId)) {
@@ -31,6 +32,7 @@ router.post('/', authMiddleware, async (req, res) => {
     }
 
     await user.save();
+    await user.populate('wishlist');
     res.json(user.wishlist);
   } catch (error) {
     console.error(error);
@@ -44,8 +46,11 @@ router.delete('/:productId', authMiddleware, async (req, res) => {
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    user.wishlist = user.wishlist.filter((item) => item !== req.params.productId);
+    user.wishlist = user.wishlist.filter(
+      (item) => item.toString() !== req.params.productId
+    );
     await user.save();
+    await user.populate('wishlist');
     res.json(user.wishlist);
   } catch (error) {
     console.error(error);

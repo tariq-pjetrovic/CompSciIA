@@ -178,13 +178,18 @@ const Products = () => {
   const handleToggleWishlist = async (product) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch('http://localhost:5000/api/wishlist', {
-        method: wishlist.some((item) => item._id === product._id) ? 'DELETE' : 'POST',
+      const exists = wishlist.some((item) => item._id === product._id);
+      const method = exists ? 'DELETE' : 'POST';
+      const url =
+        'http://localhost:5000/api/wishlist' +
+        (exists ? `/${product._id}` : '');
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ productId: product._id }),
+        body: !exists ? JSON.stringify({ productId: product._id }) : null,
       });
   
       if (response.ok) {
@@ -196,7 +201,7 @@ const Products = () => {
     } catch (error) {
       console.error('Error updating wishlist:', error);
     }
-  };
+  };  
 
   return (
         <div>
