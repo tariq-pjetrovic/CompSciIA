@@ -8,5 +8,5 @@ function roleCheck(requiredRoles) {
     };
   }
   
-  module.exports = roleCheck;
+module.exports = roleCheck;
   

@@ -14,6 +14,7 @@ import Products from './Products';
 import Cart from './Cart';
 import Wishlist from './Wishlist';
 import Payment from './Payment';
+import Admin from './AdminPanel';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -154,6 +155,9 @@ function App() {
             <h1 className="brand">Jerry's Shop</h1>
             <NavLinks />
             <div className="auth-links">
+              {user?.role === 'admin' && (
+                <Link to='/Admin' className='nav-link'>AdminPage</Link>
+              )}
               <Link to='/wishlist' className='nav-link'>Wishlist</Link>
               <Link to='/cart' className='nav-link'>Cart</Link>
               {user ? (
@@ -214,6 +218,7 @@ function App() {
             path="/wishlist" element={<Wishlist wishlist={wishlist} setWishlist={setWishlist} />} />
           <Route path="/cart" element={<Cart cart={cart} setCart={setCart}/>} />
           <Route path="/payment" element={<Payment />}/>
+          <Route path="/Admin" element={<Admin />}/>
         </Routes>
       </div>
     </Router>
