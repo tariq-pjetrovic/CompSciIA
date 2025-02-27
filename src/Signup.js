@@ -12,7 +12,6 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // POST request to create a new user
       const response = await fetch('http://localhost:5000/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

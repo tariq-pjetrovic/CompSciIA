@@ -8,7 +8,7 @@ router.post('/create-payment-intent', async (req, res) => {
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount, // Amount in cents
+      amount,
       currency,
       description,
     });
@@ -22,6 +22,7 @@ router.post('/create-payment-intent', async (req, res) => {
   }
 });
 
+// Stripe webhook
 router.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
   const endpointSecret = 'your_webhook_signing_secret';
@@ -35,7 +36,6 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // Handle the event
   switch (event.type) {
     case 'payment_intent.succeeded':
       const paymentIntent = event.data.object;

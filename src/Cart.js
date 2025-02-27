@@ -25,7 +25,7 @@ const Cart = () => {
   
       if (response.ok) {
         const updatedCart = await response.json();
-        setCart(updatedCart); // Update state
+        setCart(updatedCart);
         alert('Product removed from cart!');
       } else {
         const errorData = await response.json();

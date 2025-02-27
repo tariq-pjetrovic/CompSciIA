@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/details', async (req, res) => {
   const { productIds } = req.body;
-  console.log('Received Product IDs:', productIds); // Log received IDs
+  console.log('Received Product IDs:', productIds);
 
   if (!productIds || !Array.isArray(productIds)) {
     return res.status(400).json({ message: 'Invalid productIds format' });
@@ -39,7 +39,7 @@ router.post('/details', async (req, res) => {
 
   try {
     const products = await Product.find({ _id: { $in: productIds } });
-    console.log('Found Products:', products); // Log found products
+    console.log('Found Products:', products);
     res.status(200).json(products);
   } catch (error) {
     console.error('Error fetching product details:', error.message);
@@ -63,8 +63,8 @@ router.post('/', authMiddleware, roleCheck(['admin']), async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     console.log('Received DELETE request for Product ID:', req.params.id);
-    const productId = req.params.id; // Extract product ID from URL
-    console.log('Deleting product with ID:', productId); // Debugging log
+    const productId = req.params.id;
+    console.log('Deleting product with ID:', productId);
 
     const deletedProduct = await Product.findByIdAndDelete(productId);
     if (!deletedProduct) {

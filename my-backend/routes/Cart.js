@@ -18,7 +18,7 @@ router.get('/', authMiddleware, async (req, res) => {
 
 // Add item to cart
 router.post('/', authMiddleware, async (req, res) => {
-  const { product, quantity } = req.body; // Expect full product details from frontend
+  const { product, quantity } = req.body;
   const userId = req.user.id;
 
   try {
@@ -28,10 +28,8 @@ router.post('/', authMiddleware, async (req, res) => {
     const existingItem = user.cart.find((item) => item.product.productId.toString() === product.productId);
 
     if (existingItem) {
-      // Update quantity if the product already exists in the cart
       existingItem.quantity += quantity;
     } else {
-      // Add new item with full product details
       user.cart.push({ product, quantity });
     }
 
@@ -62,7 +60,7 @@ router.delete('/:productId', authMiddleware, async (req, res) => {
   }
 });
 
-// Add this in your Cart.js (backend)
+// Cart Quantity updater
 router.patch('/:productId', authMiddleware, async (req, res) => {
   const { quantity } = req.body;
   try {

@@ -11,7 +11,6 @@ const AdminPanel = () => {
   });
   const [analytics, setAnalytics] = useState(null);
 
-  // Fetch dummy analytics data from the backend
   useEffect(() => {
     const fetchAnalytics = async () => {
       const token = localStorage.getItem('token');
@@ -32,7 +31,6 @@ const AdminPanel = () => {
     fetchAnalytics();
   }, []);
 
-  // Handle new product submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

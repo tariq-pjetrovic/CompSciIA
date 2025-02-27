@@ -25,7 +25,6 @@ function Login({ onLogin }) {
       localStorage.setItem('userName', user.userName);
       localStorage.setItem('role', user.role);
 
-      // Fetch user's cart and wishlist after login
       const cartResponse = await fetch('http://localhost:5000/api/cart', {
         headers: { Authorization: `Bearer ${token}` },
       });

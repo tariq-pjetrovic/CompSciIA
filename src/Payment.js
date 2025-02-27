@@ -3,7 +3,6 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import './Payment.scss';
 
-// Load Stripe with your publishable key
 const stripePromise = loadStripe('pk_test_51Qb3ZsLLIhJNNpeLvtagNcsg8YUeV2BuISpDCq6oGNbIQ318cZ0BO8nm8LgWw115wTW2tFNVwP39UqbUb8r4wviP00HD9RVjOH');
 
 const CheckoutForm = () => {
@@ -26,7 +25,6 @@ const CheckoutForm = () => {
     }
 
     try {
-      // Fetch client secret from backend
       const response = await fetch('http://localhost:5000/api/payment/create-payment-intent', {
         method: 'POST',
         headers: {
@@ -41,7 +39,6 @@ const CheckoutForm = () => {
 
       const { clientSecret } = await response.json();
 
-      // Confirm the card payment
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: card,

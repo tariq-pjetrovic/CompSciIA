@@ -8,7 +8,7 @@ router.get('/analytics/sales', roleCheck(['admin', 'dev']), (req, res) => {
   const dummyAnalytics = {
     totalSales: 5000,
     ordersToday: 12,
-    topSellingProduct: "Widget A",
+    topSellingProduct: "Product A",
     monthlySales: [
       { month: "January", sales: 4000 },
       { month: "February", sales: 4500 },
@@ -26,8 +26,8 @@ router.get('/analytics/sales', roleCheck(['admin', 'dev']), (req, res) => {
 // Dummy Orders Endpoint
 router.get('/orders', roleCheck(['admin', 'dev']), (req, res) => {
   const dummyOrders = [
-    { orderId: 1, product: "Widget A", amount: 29.99, date: "2025-02-19" },
-    { orderId: 2, product: "Widget B", amount: 39.99, date: "2025-02-19" },
+    { orderId: 1, product: "Product A", amount: 29.99, date: "2025-02-19" },
+    { orderId: 2, product: "Product B", amount: 39.99, date: "2025-02-19" },
   ];
   res.json(dummyOrders);
 });

@@ -7,7 +7,6 @@ const ProductInfo = require('../models/ProductInfo');
 // Get wishlist for logged-in user
 router.get('/', authMiddleware, async (req, res) => {
   try {
-    // Populate wishlist with product details
     const user = await User.findById(req.user.id).populate('wishlist');
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.json(user.wishlist);

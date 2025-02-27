@@ -15,7 +15,6 @@ const stripe = require('stripe')('sk_test_51Qb3ZsLLIhJNNpeLUlTVOuhhdpfu42YizSAaw
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
@@ -24,7 +23,6 @@ mongoose
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
-  // Routes
   app.use('/auth', authRoutes);
   console.log(app._router.stack.filter(r => r.route).map(r => r.route.path));
   app.use('/api/admin', authMiddleware, roleCheck(['admin']), adminRoutes);

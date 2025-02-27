@@ -1,10 +1,9 @@
-// ResetPassword.js
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 function ResetPassword() {
   const [searchParams] = useSearchParams();
-  const resetToken = searchParams.get('token'); // from URL query: ?token=XYZ
+  const resetToken = searchParams.get('token');
 
   const [newPassword, setNewPassword] = useState('');
 

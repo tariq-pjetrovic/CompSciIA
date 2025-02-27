@@ -9,7 +9,7 @@ const Products = () => {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   });  
-  console.log('User in render:', user); // Debugging
+  console.log('User in render:', user);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [newProduct, setNewProduct] = useState({
     name: '',
@@ -28,7 +28,6 @@ const Products = () => {
   });
 
   useEffect(() => {
-    // Retrieve user data from localStorage
     const storedUserName = localStorage.getItem('userName');
     const storedRole = localStorage.getItem('role');
         
@@ -38,14 +37,12 @@ const Products = () => {
   }, []);
 
   useEffect(() => {
-
-    // Fetch products from backend
     const fetchProducts = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/products');
         if (response.ok) {
           const data = await response.json();
-          setProducts(data); // Update state with valid JSON data
+          setProducts(data);
         } else {
           console.error('Failed to fetch products:', response.statusText);
         }
@@ -95,7 +92,7 @@ const Products = () => {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token'); // Ensure the admin is authenticated
+      const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/api/products', {
         method: 'POST',
         headers: {
@@ -106,7 +103,7 @@ const Products = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        setProducts([...products, data]); // Update the product list
+        setProducts([...products, data]);
         setNewProduct({ name: '', description: '', price: '', image: '' });
         alert('Product added successfully');
       } else {
@@ -165,7 +162,7 @@ const Products = () => {
   
       if (response.ok) {
         const updatedCart = await response.json();
-        setCart(updatedCart); // Assuming `setCart` is a state updater function
+        setCart(updatedCart);
         alert(`${product.name} has been added to your cart!`);
       } else {
         console.error('Failed to update cart');
@@ -226,7 +223,7 @@ const Products = () => {
                       : 'outlined'
                   }`}
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent parent click handler
+                    e.stopPropagation();
                     handleToggleWishlist(product);
                   }}
                 >
