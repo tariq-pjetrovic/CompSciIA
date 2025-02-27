@@ -1,0 +1,40 @@
+@import 'variables';
+@import 'mixins';
+
+form {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: $card-bg;
+  border-radius: $border-radius;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+  input, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: $accent-color;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color $transition-speed;
+  }
+  button:hover {
+    background-color: darken($accent-color, 10%);
+  }
+}
+
+.loginFunctions{
+  margin-top: 10px;
+  display: flex;
+}

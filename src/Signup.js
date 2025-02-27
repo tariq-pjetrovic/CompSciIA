@@ -1,4 +1,5 @@
-import './Register.css';
+import './Register.scss';
+import './Main.scss';
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -31,7 +32,7 @@ function Signup() {
   };
 
   return (
-    <div className='signup-page'>
+    <div className='page-container'>
       <h1>Signup</h1>
       <form onSubmit={handleSubmit}>
         <div>

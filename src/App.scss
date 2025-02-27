@@ -1,0 +1,141 @@
+@import 'variables';
+@import 'mixins';
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.App-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(to right, #003366, #002b54);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.navbar {
+  @include flex-center;
+  justify-content: space-between;
+}
+
+.nav-link {
+  font-weight: 500;
+  cursor: pointer;
+  transition: color $transition-speed;
+}
+
+.auth-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem
+}
+
+.auth-links .nav-link {
+  display: inline-flex;
+  align-items: center;        
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.auth-links button.nav-link {
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+  appearance: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+  padding: 0.5rem 1rem;
+}
+
+
+.auth-links .nav-link:hover {
+  background-color: #008080;
+  color: #fff;
+}
+
+.brand {
+  color: #04aaaa;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.brand {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.h1{
+  position: flex;
+  display: flex;
+  color: white;
+  display: flex;
+  right: 150;
+  bottom: 100%;
+}
+
+.section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.home {
+  background: 
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("/JerrysShopHomePage.jpeg") center/cover no-repeat;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.about {
+  background: linear-gradient(to bottom, #06262c, #0A3740);
+  color: #e0e0e0;
+  padding: 4rem 2rem;
+}
+
+.services {
+  background: linear-gradient(to bottom, #0A3740, #0E4854);
+  color: #ffffff;
+  padding: 4rem 2rem;
+}
+
+.contact {
+  background: linear-gradient(to bottom, #0E4854, #126069);
+  color: #ffffff;
+  padding: 4rem 2rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+

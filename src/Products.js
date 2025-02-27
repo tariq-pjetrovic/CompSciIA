@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Link as RouterLink, useNavigate} from 'react-router-dom';
-import './Product.css';
+import './Product.scss';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -255,27 +255,10 @@ const Products = () => {
             </div>
         )}
 
-        <div className="cart">
-            <h2>Shopping Cart</h2>
-            {Array.isArray(products) && cart.length > 0 ? (
-            <ul>
-                {cart.map((item) => (
-                <li key={item._id}>
-                    <p>{item.name}</p>
-                    <p>Price: ${item.price}</p>
-                    <p>Quantity: {item.quantity}</p>
-                </li>
-                ))}
-            </ul>
-            ) : (
-            <p>Your cart is empty.</p>
-            )}
-        </div>
-
         {/* Admin-only features */}
         {user?.role === 'admin' && (
             <div>
-            <h3>Admin Panel</h3>
+            <h3>Admin Features</h3>
             <button onClick={() => setShowAddProduct((prev) => !prev)}>
                 {showAddProduct ? 'Cancel' : 'Add New Product'}
             </button>
@@ -315,7 +298,7 @@ const Products = () => {
             )}
             </div>
         )}
-        </div>
+      </div>
   );
 };
 

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import './AdminPanel.scss';
+import './Main.scss';
 
 const AdminPanel = () => {
   const [productData, setProductData] = useState({
@@ -56,20 +58,20 @@ const AdminPanel = () => {
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Admin Panel</h1>
+    <div className='page-container'>
+      <h1 className='page-title'>Admin Panel</h1>
       
       {/* Sales Analytics Section */}
-      <section style={{ marginBottom: '2rem', border: '1px solid #ccc', padding: '1rem' }}>
+      <section className='admin-card'>
         <h2>Sales Analytics</h2>
         {analytics ? (
           <div>
-            {/* This is a placeholder. Replace with real metrics as you implement a payment gateway */}
+            {/* placeholder */}
             <p>{analytics.data}</p>
             {/* Example: 
               <p>Total Sales: $5000</p>
               <p>Orders Today: 10</p>
-              <p>Top Selling Product: Widget A</p>
+              <p>Top Selling Product: {Product}</p>
             */}
           </div>
         ) : (
@@ -78,7 +80,7 @@ const AdminPanel = () => {
       </section>
 
       {/* Product Management Section */}
-      <section style={{ border: '1px solid #ccc', padding: '1rem' }}>
+      <section className='admin-card'>
         <h2>Add New Product</h2>
         <form onSubmit={handleSubmit}>
           <input

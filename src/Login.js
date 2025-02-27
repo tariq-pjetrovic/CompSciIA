@@ -1,4 +1,5 @@
-import './Register.css';
+import './Register.scss';
+import './Main.scss';
 import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
@@ -53,7 +54,7 @@ function Login({ onLogin }) {
   };
   
   return (
-    <div className='login-page'>
+    <div className='page-container'>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div>
@@ -83,7 +84,7 @@ function Login({ onLogin }) {
         </label>
         </div>
         <div>
-        <button type="submit" className='loginFunctions'>Login</button>
+        <button type="submit">Login</button>
         <RouterLink to="/forgot-password" className='loginFunctions'>ForgotPassword</RouterLink>
         <RouterLink to="/reset-password" className='loginFunctions'>ResetPassword</RouterLink>
         </div>

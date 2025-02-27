@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './ViewCart.css';
+import './ViewCart.scss';
+import './Main.scss';
 
 const Cart = () => {
   const [cart, setCart] = useState(() => {

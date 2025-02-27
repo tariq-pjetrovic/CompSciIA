@@ -1,3 +1,5 @@
+@import 'variables';
+@import 'mixins';
 
 h1{
   top: 1%;
@@ -5,18 +7,39 @@ h1{
 }
 
 .cart-page {
-  padding: 20px;
+  background: linear-gradient(to bottom, #0f6fa7, #dadee400);
   margin-top: 2%;
-  font-family: Arial, sans-serif;
+  padding: 2rem;
 }
-  
+
 .cart-item {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  padding: 10px;
+  background: $card-bg;
+  border: 1px solid #e0e0e0;
+  border-radius: $border-radius;
+  margin-bottom: 1rem;
+  padding: 1rem;
+
+  img {
+    max-width: 100px;
+    margin-right: 1rem;
+  }
+
+  .quantity-controls button {
+    background-color: $accent-color;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: background-color $transition-speed;
+  }
+  .quantity-controls button:hover {
+    background-color: darken($accent-color, 10%);
+  }
 }
+
   
 .cart-item img {
   max-width: 100px;

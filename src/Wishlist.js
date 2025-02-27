@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './Wishlist.css';
+import './Wishlist.scss';
+import './Main.scss';
 
 const Wishlist = ({ wishlist, setWishlist }) => {
+
   const handleRemoveFromWishlist = async (productId) => {
     const token = localStorage.getItem('token');
     try {
@@ -15,6 +17,7 @@ const Wishlist = ({ wishlist, setWishlist }) => {
       if (response.ok) {
         const updatedWishlist = await response.json();
         setWishlist(updatedWishlist);
+        window.location.reload();
       } else {
         console.error('Failed to remove item from wishlist');
       }

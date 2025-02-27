@@ -1,0 +1,29 @@
+@import 'variables';
+@import 'reset';
+@import 'mixins';
+@import 'global';
+
+@import 'App'; 
+@import 'Payment'; 
+@import 'Product';
+@import 'Register'; 
+@import 'ViewCart';
+@import 'Wishlist'; 
+
+.page-container {
+    margin-top: 3%;
+    background: #f0f2f5;
+    min-height: 80vh;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-title {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+}
+  

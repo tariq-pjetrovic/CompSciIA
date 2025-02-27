@@ -4,7 +4,8 @@ import {Element, scroller } from 'react-scroll';
 import { useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import './App.css';
+import './App.scss';
+import './Main.scss';
 import Login from './Login';
 import Signup from './Signup';
 import ForgotPassword from './ForgotPassword';
@@ -74,15 +75,12 @@ function App() {
   }, [cart]);
 
   useEffect(() => {
-    // Prevent infinite loops by ensuring wishlist doesn't trigger itself
     const fetchProductDetails = async () => {
-      // Only fetch if wishlist has valid product IDs
       if (!wishlist || wishlist.length === 0) {
         console.log('Wishlist is empty or undefined.');
-        return; // Exit early if empty
+        return;
       }
   
-      // Extract product IDs
       const productIds = wishlist.map((item) => item.productId || item._id || item);
   
       try {
@@ -96,7 +94,6 @@ function App() {
           const productDetails = await response.json();
           console.log('Fetched product details:', productDetails);
   
-          // Avoid setting state if data is unchanged to prevent re-runs
           if (JSON.stringify(wishlist) !== JSON.stringify(productDetails)) {
             setWishlist(productDetails);
           }
@@ -108,8 +105,8 @@ function App() {
       }
     };
   
-    fetchProductDetails(); // Fetch details
-  }, [JSON.stringify(wishlist)]); // Add stringified wishlist to dependency array  
+    fetchProductDetails();
+  }, [JSON.stringify(wishlist)]);  
 
   useEffect(() => {
     console.log('Stored cart:', localStorage.getItem('cart'));
@@ -147,9 +144,13 @@ function App() {
     }
   }, []);
 
+  function RefreshPage(){
+    window.locate.reload();
+  }
+
   return (
     <Router>
-      <div className="App">
+      <div className="app">
         <header className="App-header">
           <nav className="navbar">
             <h1 className="brand">Jerry's Shop</h1>
@@ -158,16 +159,12 @@ function App() {
               {user?.role === 'admin' && (
                 <Link to='/Admin' className='nav-link'>AdminPage</Link>
               )}
-              <Link to='/wishlist' className='nav-link'>Wishlist</Link>
+              <Link to='/wishlist' className='nav-link' onClick={RefreshPage}>Wishlist</Link>
               <Link to='/cart' className='nav-link'>Cart</Link>
               {user ? (
                 <>
-                  <Link to="/profile" className="nav-link">
-                    Profile
-                  </Link>
-                  <button className="nav-link" onClick={handleLogout}>
-                    Logout
-                  </button>
+                  <Link to="/profile" className="nav-link">Profile</Link>
+                  <button className="nav-link" onClick={handleLogout}>Logout</button>
                 </>
               ) : (
                 <>
@@ -188,22 +185,23 @@ function App() {
             element={
               <>
                 <Element name="home" className="section home">
-                  <h1>Welcome to My Site</h1>
-                  <p>Your one-stop solution for web design.</p>
                 </Element>
                 <Element name="about" className="section about">
                   <h2>About Us</h2>
-                  <p>About us (lmao)</p>
+                  <p>We Are a small business based in Bosnia and Herzegovina.</p>
+                  <p>We currently have two employees running the site and we are hoping for future expansion</p>
                 </Element>
                 <Element name="services" className="section services">
                   <h2>Our Services</h2>
                   <ul>
-                    <li>Demo, for now</li>
+                    <li>Selling products worldwide</li>
+                    <li>Cheap internatial shipping</li>
+                    <li>2-3 week delivery time</li>
                   </ul>
                 </Element>
                 <Element name="contact" className="section contact">
                   <h2>Contact</h2>
-                  <p>Maybe remove this later on</p>
+                  <p>Contact us at jerrysshopsup@gmail.com for support</p>
                 </Element>
               </>
             }
@@ -240,7 +238,7 @@ function NavLinks() {
   };
 
   return (
-    <div className="nav-links">
+    <div className="auth-links">
       <span className="nav-link" onClick={() => navigateAndScroll('home')}>Home</span>
       <span className="nav-link" onClick={() => navigateAndScroll('about')}>About</span>
       <span className="nav-link" onClick={() => navigateAndScroll('services')}>Services</span>

@@ -1,17 +1,19 @@
 import React from 'react';
+import './Main.scss';
+import './Profile.scss';
 
 function Profile({ user }) {
   if (!user) {
-    return <p>Loading user data...</p>; // Fallback in case user is null
+    return <p>Loading user data...</p>;
   }
 
   return (
-    <div>
-      <h1>Profile Page</h1>
-      <p>
+    <div className='page-container'>
+      <h1 className='title'>Profile Page</h1>
+      <p className='profile-card'>
         <strong>Username:</strong> {user.userName}
       </p>
-      <p>
+      <p className='profile-card'>
         <strong>Role:</strong> {user.role}
       </p>
     </div>
