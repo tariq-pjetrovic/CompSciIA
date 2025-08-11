@@ -6,7 +6,6 @@ Full-stack e-commerce application with authentication, role-based access, and pr
 - User registration/login with JWT authentication
 - Admin dashboard for managing products
 - Shopping cart and checkout flow
-- Product search and filtering
 - Password reset via email
 
 ## Tech Stack
